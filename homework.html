@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<!--H57: Using language attributes on the html element -->
+<html lang="en">
+
+<head>
+  <meta name="description" content="The following page uses the ADA regulations, the website display information of the name and age of 10 people, also allows to sort them by age and to remove the persons with less than 65 years old">
+  <!--WCAG20-TECHS G88: Providing descriptive titles for Web pages,
+  H25: Providing a title using the title element-->
+  <title>The following Website is Accessibility Under ADA regulationes</title>
+  <script data-require="jquery@*" data-semver="3.0.0" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.js"></script>
+
+  <style>
+    body {
+      background-color: antiquewhite;
+    }
+    /*C18: Using CSS margin and padding rules instead of spacer images for layout design*/
+    h1{         
+      text-align: center; 
+      font-size: 32px;
+      }
+      
+    p {
+      text-align: center; 
+      font-size: 16px;
+    }
+    
+    table {
+      font-family: arial, sans-serif;
+      border-collapse: collapse;
+      border-style: solid;
+      border-color: #2F4F4F;
+      width: 50%;
+      margin-top: 25px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    form {
+      border-style: solid;
+      border-color: darkseagreen;
+      text-align: center;
+      margin: 0 auto;
+      width: 300px;
+    }
+    
+    img {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      width: 30%;
+    }
+    
+    td,
+    th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
+    
+    tr:nth-child(even) {
+      background-color: #dddddd;
+    }
+    
+    aside {
+      margin-top: 25px;
+    }
+    
+    .noDisplay {
+      display: none;
+    }
+    
+    .wrapper {
+      text-align: center;
+    }
+    
+    .button {
+      position: relative;
+      top: 50%;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <!--H42: Using h1-h6 to identify headings-->
+    <h1>Welcome On Our Website!</h1>
+    <!-- Introduction to Techniques for WCAG 2.0,
+    G1: Adding a link at the top of each page that goes directly to the main content area.
+    H30: Providing link text that describes the purpose of a link for anchor elements-->
+    <p>
+      <a href="#data_table">Please click here to go to the main content</a>
+    </p>
+    <p>
+      <!--G86: Providing descriptive text summary that can be understood for people  
+      with lower secondary education-->
+      <a href="#short_data">Please click here to go to the button to sort by age</a>
+    </p>
+    <!--alt that describes the image-->
+    <img src=http://www.cartoonmovement.com/depot/cartoons/2013/06/fE6EwKwSQ8SR_tVfcWIuhQ.jpeg alt="Old man and young man trying to communicate, they speak a diferent language">
+  </header>
+
+  <!--G115: use of semantic elements to mark up structure-->
+  <article>
+    <header>
+      <h1>Table of people</h1>
+    </header>
+
+    <!--H51: Using table markup to present tabular information-->
+    <table id="data_table">
+      <thead>
+        <tr>
+          <!--headers clearly identified-->
+          <th id="header-name">Name</th>
+          <th id="header-age">Age</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Juan Snow</td>
+          <td>33</td>
+        </tr>
+        <tr>
+          <td>Leonel Messi</td>
+          <td>25</td>
+        </tr>
+        <tr>
+          <td>Mary Ford</td>
+          <td>88</td>
+        </tr>
+        <tr>
+          <td>John Lee</td>
+          <td>8</td>
+        </tr>
+        <tr>
+          <td>Chuck Norris</td>
+          <td>73</td>
+        </tr>
+        <tr>
+          <td>Negan Rodriguez</td>
+          <td>53</td>
+        </tr>
+        <tr>
+          <td>Jessica Conejo</td>
+          <td>40</td>
+        </tr>
+        <tr>
+          <td>Diamon Landlord</td>
+          <td>13</td>
+        </tr>
+        <tr>
+          <td>Joe Roa</td>
+          <td>3</td>
+        </tr>
+        <tr>
+          <td>Linda London</td>
+          <td>22</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="wrapper">
+      <p>Please click the button below to sort by age</p>
+      <!--H84: Using a button with a select element to perform an action-->
+      <button id="short_data" class="button" onclick="javascript:sortData();">sort_data</button>
+    </div>
+  </article>
+
+  <!--G115: use of semantic elements to mark up structure-->
+  <aside>
+    <form>
+      <fieldset>
+        <legend>Check the box to remove younger people</legend>
+        <input type="checkbox" name="remove" value="remove" class="checkbox">
+        <br />
+      </fieldset>
+    </form>
+  </aside>
+
+  <script>
+    function sortData() {
+      var tableData = document.getElementById('data_table').getElementsByTagName('tbody').item(0);
+      var rowData = tableData.getElementsByTagName('tr');
+      for (var i = 0; i < rowData.length - 1; i++) {
+        for (var j = 0; j < rowData.length - (i + 1); j++) {
+          if (parseInt(rowData.item(j).getElementsByTagName('td').item(1).innerHTML) > parseInt(rowData.item(j + 1).getElementsByTagName('td').item(1).innerHTML)) {
+            tableData.insertBefore(rowData.item(j + 1), rowData.item(j));
+          }
+        }
+      }
+    }
+
+
+
+    $(".checkbox").change(function() {
+      if (this.checked) {
+        $('tr > td:odd').each(function(index) {
+          var score = $(this).text();
+          for (var i = 0; i < 1; i++) {
+            if (score <= 64) {
+              $(this.parentNode).addClass("noDisplay");
+            }
+          }
+        });
+      }
+    });
+  </script>
+</body>
+
+</html>
